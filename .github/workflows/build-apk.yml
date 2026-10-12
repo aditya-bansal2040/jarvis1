@@ -20,26 +20,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Auto-detects if project is inside a subfolder or zip and fixes layout
-      - name: Prepare Project Structure
-        run: |
-          echo "Checking directory structure..."
-          if [ -f "Jarvis-Android-Ready.zip" ]; then
-            echo "Unpacking Jarvis-Android-Ready.zip..."
-            unzip -o Jarvis-Android-Ready.zip || true
-          fi
-          if [ -f "jarvis-android/settings.gradle" ]; then
-            echo "Relocating files from jarvis-android subfolder to root..."
-            cp -rn jarvis-android/* . || cp -r jarvis-android/* . || true
-          fi
-
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
-      - name: Accept Android SDK Licenses & Install Platform 34
+      - name: Accept Android SDK Licenses
         run: |
           yes | sdkmanager --licenses || true
-          sdkmanager "platforms;android-34" "build-tools;34.0.0" || true
 
       - name: Setup Gradle 8.5
         uses: gradle/actions/setup-gradle@v3
@@ -47,8 +30,7 @@ jobs:
           gradle-version: '8.5'
 
       - name: Compile Jarvis Android APK
-        run: |
-          gradle assembleDebug --no-daemon --stacktrace
+        run: gradle assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
