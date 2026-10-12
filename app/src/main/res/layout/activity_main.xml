@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_dark"
+    android:padding="10dp">
+
+    <!-- Top Header Bar with Profile & Controls -->
+    <LinearLayout
+        android:id="@+id/topBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAppTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.2"
+                android:text="J.A.R.V.I.S."
+                android:textColor="@color/cyan_glow"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvActiveProfile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.08"
+                android:text="ADITYA • GIRLFRIEND MODE"
+                android:textColor="@color/text_secondary"
+                android:textSize="9.5sp" />
+        </LinearLayout>
+
+        <!-- 1-Tap Quick Switch Profile Button -->
+        <ImageButton
+            android:id="@+id/btnSwitchProfile"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Switch Profile"
+            android:src="@android:drawable/ic_menu_rotate"
+            app:tint="@color/cyan_glow" />
+
+        <!-- Ghost / Private Mode Toggle Button -->
+        <ImageButton
+            android:id="@+id/btnGhostMode"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Ghost Mode"
+            android:src="@android:drawable/ic_menu_view"
+            app:tint="@color/text_secondary" />
+
+        <!-- 1-Tap Wipe Memory Button -->
+        <ImageButton
+            android:id="@+id/btnWipeMemory"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Wipe Memory"
+            android:src="@android:drawable/ic_menu_delete"
+            app:tint="@color/red_stop" />
+
+        <!-- Floating Bubble Overlay Launcher -->
+        <ImageButton
+            android:id="@+id/btnLaunchFloating"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Floating Mode"
+            android:src="@android:drawable/ic_menu_always_landscape_portrait"
+            app:tint="@color/cyan_glow" />
+
+        <!-- Settings (Protected with App Lock if configured) -->
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Settings"
+            android:src="@android:drawable/ic_menu_preferences"
+            app:tint="@color/cyan_glow" />
+    </LinearLayout>
+
+    <!-- Center Arc Reactor Hologram Canvas -->
+    <com.jarvis.assistant.HologramView
+        android:id="@+id/hologramView"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topBarLayout" />
+
+    <!-- Status Badge -->
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:letterSpacing="0.12"
+        android:text="@string/status_ready"
+        android:textColor="@color/cyan_glow"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/hologramView" />
+
+    <!-- User Input Preview -->
+    <TextView
+        android:id="@+id/tvUserTranscript"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Type below or tap TALK..."
+        android:textColor="@color/text_secondary"
+        android:textSize="10.5sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvStatus" />
+
+    <!-- Neural Response Card with Header and Copy Button -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/responseCardContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_hud_card"
+        android:padding="8dp"
+        app:layout_constraintBottom_toTopOf="@id/toolsRow1Layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvUserTranscript">
+
+        <!-- Card Header with Copy Button -->
+        <TextView
+            android:id="@+id/tvResponseHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.1"
+            android:text="NEURAL FEEDBACK"
+            android:textColor="@color/cyan_glow"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnCopyResponse"
+            android:layout_width="wrap_content"
+            android:layout_height="28dp"
+            android:background="@drawable/bg_btn_hud"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:text="📋 COPY"
+            android:textAllCaps="false"
+            android:textColor="@color/cyan_glow"
+            android:textSize="10sp"
+            app:backgroundTint="@null"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Scrollable Selectable Text -->
+        <ScrollView
+            android:id="@+id/responseScrollView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnCopyResponse">
+
+            <TextView
+                android:id="@+id/tvResponse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="2dp"
+                android:text="At your service, sir. Online and fully integrated with real-time Google search, camera vision, and system controls."
+                android:textColor="@color/text_primary"
+                android:textIsSelectable="true"
+                android:textSize="12.5sp" />
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Quick Tools Row 1: Vision, Reminders & Native Torch -->
+    <LinearLayout
+        android:id="@+id/toolsRow1Layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/toolsRow2Layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnCameraVision"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="📷 Cam"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnScreenVision"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="📱 Screen"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnReminders"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="⏰ Remind"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnTorch"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="🔦 Torch"
+            android:textAllCaps="false"
+            android:textColor="@color/gold_glow"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <!-- Quick Tools Row 2: Study Focus, Calc, Notes, Continuous Loop -->
+    <LinearLayout
+        android:id="@+id/toolsRow2Layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/textInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnStudyTimer"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="📚 Study"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnCalculator"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="🧮 Calc"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnNotes"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="📝 Notes"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnToggleLoop"
+            android:layout_width="0dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="2dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_hud"
+            android:text="🔄 Loop"
+            android:textAllCaps="false"
+            android:textColor="@color/cyan_glow"
+            android:textSize="11sp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <!-- Text Input Bar (Type message + Send button) -->
+    <LinearLayout
+        android:id="@+id/textInputLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/mainControlsLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/etUserInput"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_box"
+            android:hint="Type message or ask anything..."
+            android:imeOptions="actionSend"
+            android:inputType="textCapSentences|textShortMessage"
+            android:maxLines="2"
+            android:textColor="#ffffff"
+            android:textColorHint="@color/text_secondary"
+            android:textSize="12.5sp" />
+
+        <ImageButton
+            android:id="@+id/btnSendText"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/bg_btn_talk"
+            android:contentDescription="Send"
+            android:src="@android:drawable/ic_menu_send"
+            app:backgroundTint="@null"
+            app:tint="@color/bg_dark" />
+    </LinearLayout>
+
+    <!-- Main Talk & Emergency Force-Stop Controls -->
+    <LinearLayout
+        android:id="@+id/mainControlsLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btnTalk"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="2"
+            android:background="@drawable/bg_btn_talk"
+            android:letterSpacing="0.04"
+            android:text="🎙 TALK TO JARVIS"
+            android:textAllCaps="false"
+            android:textColor="@color/bg_dark"
+            android:textSize="13.5sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnForceStop"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_btn_stop"
+            android:letterSpacing="0.04"
+            android:text="🛑 STOP"
+            android:textAllCaps="false"
+            android:textColor="@color/red_stop"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
